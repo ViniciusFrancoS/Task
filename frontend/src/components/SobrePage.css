@@ -1,0 +1,170 @@
+/* =====================================================
+   SOBRE PAGE — usa 100% as variáveis do design system
+   ===================================================== */
+
+.sobre-page {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  padding-bottom: 2rem;
+}
+
+/* ---- Hero ---- */
+.sobre-hero {
+  background: linear-gradient(135deg, var(--bg-card) 0%, rgba(99,102,241,0.08) 100%);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 2rem 2rem 1.75rem;
+  animation: sobrefadein 0.45s ease both;
+}
+
+.sobre-eyebrow {
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--indigo-400);
+  margin-bottom: 0.9rem;
+}
+
+.sobre-headline {
+  font-size: 1.45rem;
+  font-weight: 700;
+  line-height: 1.45;
+  color: var(--text-primary);
+  margin-bottom: 1.1rem;
+}
+
+.sobre-highlight {
+  color: var(--indigo-400);
+}
+
+.sobre-intro {
+  font-size: 0.95rem;
+  line-height: 1.75;
+  color: var(--text-secondary);
+}
+
+.sobre-intro strong {
+  color: var(--text-primary);
+  font-weight: 600;
+}
+
+/* ---- Cards Grid ---- */
+.sobre-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1rem;
+}
+
+.sobre-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 1.4rem 1.5rem;
+  transition: var(--transition);
+  animation: sobrefadein 0.45s ease both;
+}
+
+.sobre-card:hover {
+  border-color: var(--indigo-600);
+  background: var(--bg-card-hover);
+  box-shadow: var(--shadow-glow);
+  transform: translateY(-2px);
+}
+
+.sobre-card-header {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  margin-bottom: 1rem;
+}
+
+.sobre-card-icon {
+  font-size: 1.2rem;
+  line-height: 1;
+}
+
+.sobre-card-title {
+  font-size: 0.9rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--indigo-400);
+}
+
+.sobre-card-text {
+  font-size: 0.9rem;
+  line-height: 1.75;
+  color: var(--text-secondary);
+}
+
+/* ---- List ---- */
+.sobre-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.sobre-list-item {
+  display: flex;
+  align-items: baseline;
+  gap: 0.6rem;
+  font-size: 0.88rem;
+  line-height: 1.6;
+  color: var(--text-secondary);
+}
+
+.sobre-bullet {
+  flex-shrink: 0;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--indigo-500);
+  margin-top: 0.45rem;
+}
+
+/* ---- Footer block ---- */
+.sobre-footer-block {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 1.5rem;
+  text-align: center;
+  animation: sobrefadein 0.5s 0.32s ease both;
+}
+
+.sobre-footer-quote {
+  font-size: 0.95rem;
+  line-height: 1.75;
+  color: var(--text-secondary);
+  margin-bottom: 0.65rem;
+}
+
+.sobre-footer-cta {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+/* ---- Keyframe ---- */
+@keyframes sobrefadein {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ---- Responsiveness ---- */
+@media (max-width: 600px) {
+  .sobre-headline {
+    font-size: 1.2rem;
+  }
+  .sobre-grid {
+    grid-template-columns: 1fr;
+  }
+}
