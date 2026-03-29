@@ -15,6 +15,7 @@ import SobrePage from './components/SobrePage';
 import StreakModal from './components/StreakModal';
 import { useGamification } from './hooks/useGamification';
 import { useBadges } from './hooks/useBadges';
+import VerificationPending from './components/VerificationPending';
 
 export default function App() {
     const [session, setSession] = useState(null);
@@ -133,6 +134,11 @@ export default function App() {
 
     if (!session) {
         return <Login />;
+    }
+
+    // Bloqueio Total para e-mail não verificado
+    if (!session.user.email_confirmed_at) {
+        return <VerificationPending session={session} />;
     }
 
     return (

@@ -198,8 +198,128 @@
 }
 
 /* ==========================================================================
-   SEÇÃO: ANIMAÇÕES & SKELETONS
+   SEÇÃO: VERIFICAÇÃO DE E-MAIL
    ========================================================================== */
+
+.verification-pending-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background: var(--bg-dark);
+  padding: 2rem;
+}
+
+.verification-card {
+  background: #1e293b;
+  border: 1px solid #334155;
+  border-radius: 20px;
+  padding: 3rem 2rem;
+  max-width: 440px;
+  width: 100%;
+  text-align: center;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+}
+
+.verification-icon-wrapper {
+  margin-bottom: 2rem;
+  display: flex;
+  justify-content: center;
+}
+
+.verification-title {
+  font-size: 1.8rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  color: #fff;
+}
+
+.verification-desc {
+  color: var(--text-dim);
+  line-height: 1.6;
+  margin-bottom: 2.5rem;
+}
+
+.verification-desc strong {
+  color: #fff;
+}
+
+.verification-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.verification-btn-primary {
+  padding: 1rem;
+  background: var(--brand-color);
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.verification-btn-primary:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.verification-btn-secondary {
+  padding: 1rem;
+  background: transparent;
+  color: #94a3b8;
+  border: 1px solid #334155;
+  border-radius: 10px;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.verification-btn-secondary:hover {
+  background: #0f172a;
+  color: #fff;
+}
+
+.verification-status-success {
+  margin-top: 1.5rem;
+  padding: 0.8rem;
+  background: rgba(34, 197, 94, 0.1);
+  color: #4ade80;
+  border-radius: 8px;
+  font-size: 0.9rem;
+}
+
+.verification-status-error {
+  margin-top: 1.5rem;
+  padding: 0.8rem;
+  background: rgba(239, 68, 68, 0.1);
+  color: #f87171;
+  border-radius: 8px;
+  font-size: 0.9rem;
+}
+
+.verification-footer {
+  margin-top: 2rem;
+  font-size: 0.85rem;
+  color: #475569;
+}
+
+/* Card de Sucesso no Login */
+.login-success-card {
+  text-align: center;
+  animation: fadeIn 0.5s ease-out;
+}
+
+.login-desc-sm {
+  font-size: 0.9rem;
+  color: var(--text-dim);
+  margin-top: 0.5rem;
+  max-width: 280px;
+  line-height: 1.5;
+}
 
 @keyframes pulse {
   0% { opacity: 0.6; }

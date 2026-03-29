@@ -23,7 +23,17 @@ async function requireAuth(req, res, next) {
             return res.status(401).json({ error: 'Não autorizado. Token inválido/expirado.' });
         }
 
-        console.log(`[AUTH] Usuário logado: ${user.email} (ID: ${user.id})`);
+        console.log(`[AUTH] Usuário logado: ${user.email} (ID: ${user.id}) | Verificado: ${!!user.email_confirmed_at}`);
+
+        // [NOVO] Bloqueio de e-mail não verificado
+        if (!user.email_confirmed_at) {
+            console.warn(`[AUTH] Acesso bloqueado: E-mail não verificado para ${user.email}`);
+            return res.status(403).json({ 
+                error: 'E-mail não confirmado.', 
+                code: 'EMAIL_NOT_CONFIRMED',
+                message: 'Por favor, confirme seu e-mail para acessar os recursos da TaskForge.' 
+            });
+        }
 
         // Criar cliente escopado para o usuário
         req.supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_ANON_KEY, {
@@ -31,7 +41,7 @@ async function requireAuth(req, res, next) {
         });
 
         // Lazy Init: Garantir que existe progresso para esse usuário
-        // Usamos .maybeSingle() para evitar erro 500 se o registro ainda não existir
+        // Só roda se o usuário estiver verificado (que já garantimos acima)
         const { data: progress, error: pgError } = await req.supabase
             .from('user_progress')
             .select('xp')
@@ -43,7 +53,7 @@ async function requireAuth(req, res, next) {
         }
 
         if (!progress) {
-            console.log(`[AUTH] Inicializando perfil para novo usuário: ${user.email}`);
+            console.log(`[AUTH] Inicializando perfil para novo usuário VERIFICADO: ${user.email}`);
             // Cria progresso base com nome (se disponível)
             const userName = user.user_metadata?.full_name || user.email.split('@')[0];
             
@@ -60,8 +70,6 @@ async function requireAuth(req, res, next) {
             } else {
                 console.log(`[AUTH] Perfil criado com sucesso para ${user.email}`);
             }
-        } else {
-            console.log(`[AUTH] Perfil já existente para ${user.id}`);
         }
 
         // Anexar propriedades do usuário
