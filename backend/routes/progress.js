@@ -32,17 +32,32 @@ function diffDays(dateA, dateB) {
 // GET /api/progress — Retorna o XP e streak do usuário atual
 router.get('/', async (req, res) => {
     try {
+        console.log(`[GET /progress] Buscando dados para: ${req.user.id}`);
         const { data: progress, error } = await req.supabase
             .from('user_progress')
             .select('xp, streak, dias_ativos, badges')
             .eq('user_id', req.user.id)
-            .single();
+            .maybeSingle();
 
-        if (error) throw error;
+        if (error) {
+            console.error('[GET /progress] Erro DB:', error.message);
+            throw error;
+        }
 
+        if (!progress) {
+            console.warn(`[GET /progress] Registro não encontrado para ${req.user.id}. Retornando padrão.`);
+            return res.json({
+                xp: 0,
+                streak: 0,
+                dias_ativos: [],
+                badges: []
+            });
+        }
+
+        console.log(`[GET /progress] Sucesso: XP ${progress.xp}, Streak ${progress.streak}`);
         res.json(progress);
     } catch (err) {
-        console.error('[GET /progress]', err);
+        console.error('[GET /progress] Erro Fatal:', err);
         res.status(500).json({ error: 'Erro ao buscar progresso.' });
     }
 });

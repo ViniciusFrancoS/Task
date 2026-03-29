@@ -25,9 +25,9 @@ export default function App() {
 
     const { 
         xp, nivelAtual, progresso, sequencia, toasts, ganharXP, 
-        streakStatus, clearStreakStatus 
+        streakStatus, clearStreakStatus, isLoading: gamificationLoading
     } = useGamification(session);
-    const { userBadges, evaluateBadge } = useBadges(session, ganharXP);
+    const { userBadges, evaluateBadge, isLoading: badgesLoading } = useBadges(session, ganharXP);
 
     const isFirstRender = useRef(true);
 
@@ -43,47 +43,70 @@ export default function App() {
     }, [sequencia]);
 
     useEffect(() => {
+        console.log('[App Auth] Registrando listener de Auth...');
         const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
-            console.log(`[App Auth] Evento Auth: ${event}`);
-
-            // INITIAL_SESSION = sessão inicial resolvida pelo Supabase (login existente ou null)
-            // Usamos este evento para fechar o loading — substituindo getSession() paralelo
+            console.log(`[App Auth] Evento: ${event} | Sessão: ${session ? 'Ativa' : 'Nula'}`);
+ 
             if (event === 'INITIAL_SESSION') {
+                console.log('[App Auth] Sessão inicial validada.');
                 setAuthLoading(false);
             }
 
+            // Garante que o loading saia se houver erro de login ou logout
             if (event === 'SIGNED_OUT' || !session) {
+                console.log('[App Auth] Usuário deslogado. Limpando estados.');
                 setTasks([]);
+                setLoading(false); // Para o spinner de tarefas se deslogar
                 localStorage.removeItem('ag_user_context');
                 localStorage.removeItem('ag_gamification');
             }
-
-            setSession((prev) => (prev?.access_token === session?.access_token ? prev : session));
+ 
+            setSession((prev) => {
+                if (prev?.access_token === session?.access_token) return prev;
+                console.log('[App Auth] Sessão atualizada no estado.');
+                return session;
+            });
         });
 
         return () => subscription.unsubscribe();
     }, []);
 
     useEffect(() => {
-        if (!session?.user?.id) return; // Checa apenas o ID do usuário para rodar
+        if (!session?.user?.id) {
+            setLoading(false);
+            return;
+        }
+
+        console.log(`[App Data] Buscando tarefas para: ${session.user.email}`);
         setLoading(true);
+
         fetchWithSession('/api/tasks')
             .then((r) => {
                 if (r.status === 401) {
-                    console.error('[App] Sessão expirada ou inválida. Fazendo logout.');
+                    console.error('[App Data] 401: Token expirado. Deslogando...');
                     supabase.auth.signOut();
                     return null;
                 }
-                if (!r.ok) return null;
+                if (!r.ok) {
+                    console.error(`[App Data] Erro HTTP: ${r.status}`);
+                    return null;
+                }
                 return r.json();
             })
             .then((data) => {
+                console.log('[App Data] Tarefas carregadas:', data?.length || 0);
                 if (Array.isArray(data)) setTasks(data);
                 else setTasks([]);
             })
-            .catch(() => console.error('Erro ao carregar tarefas.'))
-            .finally(() => setLoading(false));
-    }, [session?.user?.id]); // FIX MINIMALISTA: Dependência no ID quebrará o loop infinito!
+            .catch((err) => {
+                console.error('[App Data] Erro crítico ao buscar tarefas:', err);
+                setTasks([]);
+            })
+            .finally(() => {
+                console.log('[App Data] Fluxo de inicialização finalizado.');
+                setLoading(false);
+            });
+    }, [session?.user?.id]);
 
 
 
@@ -192,7 +215,11 @@ export default function App() {
                 {activeTab === 'tarefas' && (
                     <>
                         {/* Barra de gamificação */}
-                        <GamificationBar xp={xp} sequencia={sequencia} />
+                        <GamificationBar 
+                            xp={xp} 
+                            sequencia={sequencia} 
+                            isLoading={gamificationLoading} 
+                        />
 
                         {/* Micro-vitórias conectadas em tempo real com o banco de dados */}
                         <MicroVictories
@@ -260,7 +287,10 @@ export default function App() {
 
                 {activeTab === 'conquistas' && (
                     <div className="leaderboard-section">
-                        <BadgesPanel userBadges={userBadges} />
+                        <BadgesPanel 
+                            userBadges={userBadges} 
+                            isLoading={badgesLoading} 
+                        />
                     </div>
                 )}
 

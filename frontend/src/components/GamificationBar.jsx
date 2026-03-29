@@ -3,7 +3,24 @@
  */
 import { getNivel, getProgressoNivel, NIVEIS } from '../hooks/useGamification';
 
-export default function GamificationBar({ xp, sequencia }) {
+export default function GamificationBar({ xp, sequencia, isLoading }) {
+    if (isLoading) {
+        return (
+            <div className="gamification-bar loading-skeleton">
+                <div className="gam-level-info">
+                    <div className="gam-level-badge skeleton-pulse" style={{ borderColor: '#334155' }}></div>
+                    <div className="gam-level-text">
+                        <div className="skeleton-line-sm"></div>
+                        <div className="skeleton-line-xs"></div>
+                    </div>
+                </div>
+                <div className="gam-progress-wrapper">
+                    <div className="gam-progress-bar skeleton-pulse"></div>
+                </div>
+            </div>
+        );
+    }
+
     const nivel = getNivel(xp);
     const progresso = getProgressoNivel(xp);
     const proxNivel = NIVEIS.find((n) => n.nivel === nivel.nivel + 1);

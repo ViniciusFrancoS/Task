@@ -46,7 +46,19 @@ const TIER_CLASSES = {
     3: 'tier-gold'
 };
 
-export default function BadgesPanel({ userBadges = {} }) {
+export default function BadgesPanel({ userBadges = {}, isLoading }) {
+    if (isLoading) {
+        return (
+            <section className="badges-section loading-skeleton">
+                <h2 className="badges-title">Carregando Conquistas...</h2>
+                <div className="badges-grid">
+                    {[1, 2, 3, 4, 5].map(i => (
+                        <div key={i} className="badge-card skeleton-pulse" style={{ height: '120px', background: '#1e293b' }}></div>
+                    ))}
+                </div>
+            </section>
+        );
+    }
     const badgesArray = Object.values(BADGES_CONFIG);
 
     return (

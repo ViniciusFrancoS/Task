@@ -3,23 +3,36 @@ import { fetchWithSession } from './useSession';
 
 export function useBadges(session, ganharXP) {
     const [userBadges, setUserBadges] = useState({});
+    const [isLoading, setIsLoading] = useState(false);
 
     // Sincroniza estado local inicial
     useEffect(() => {
         if (!session?.user?.id) {
+            console.log('[useBadges] Sem sessão ativa. Resetando badges.');
             setUserBadges({});
+            setIsLoading(false);
             return;
         }
+
+        console.log(`[useBadges] Iniciando fetch para: ${session.user.email}`);
+        setIsLoading(true);
 
         fetchWithSession('/api/progress')
             .then(res => res.json())
             .then(data => {
+                console.log('[useBadges] Badges recebidas:', data?.badges);
                 if (data && data.badges) {
                     setUserBadges(data.badges);
                 }
             })
-            .catch(console.error);
-    }, [session?.user?.id]); // FIX MINIMALISTA: Dependência no ID quebrará loop
+            .catch(err => {
+                console.error('[useBadges] Erro ao carregar badges:', err);
+            })
+            .finally(() => {
+                console.log('[useBadges] Fetch de badges finalizado.');
+                setIsLoading(false);
+            });
+    }, [session?.user?.id]);
 
 
     // Função central para despachar uma ação
@@ -56,5 +69,5 @@ export function useBadges(session, ganharXP) {
         }
     };
 
-    return { userBadges, evaluateBadge };
+    return { userBadges, evaluateBadge, isLoading };
 }
