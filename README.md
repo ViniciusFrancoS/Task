@@ -1,7 +1,7 @@
 <div align="center">
   <img src="https://raw.githubusercontent.com/tandpfun/skill-icons/main/icons/React-Dark.svg" width="40" height="40" alt="React">
   <img src="https://raw.githubusercontent.com/tandpfun/skill-icons/main/icons/NodeJS-Dark.svg" width="40" height="40" alt="Node.js">
-  <img src="https://raw.githubusercontent.com/tandpfun/skill-icons/main/icons/Supabase-Dark.svg" width="40" height="40" alt="Supabase">
+  <img src="https://raw.githubusercontent.com/tandpfun/skill-icons/main/icons/PostgreSQL-Dark.svg" width="40" height="40" alt="PostgreSQL">
   <img src="https://raw.githubusercontent.com/tandpfun/skill-icons/main/icons/GCP-Dark.svg" width="40" height="40" alt="Google Gemini AI">
 </div>
 
@@ -37,6 +37,18 @@ Este repositório foi construído seguindo os mais altos padrões de *Clean Arch
 **Backend:** Node.js, Express, Supabase SDK (Server-side validation).  
 **Database:** Supabase (PostgreSQL), integrado via JWT Middleware.  
 **IA:** Google Gemini 3.1 Pro Model via chamadas *Edge*.
+
+---
+
+## 🏗️ Arquitetura do Sistema
+
+```mermaid
+graph TD
+    Frontend[Frontend React] -->|API Requests| Backend[Backend Express]
+    Frontend -->|Auth & Data| DB[PostgreSQL]
+    Backend -->|Sync| DB
+    Backend -->|Prompt Engineering| AI[Google Gemini AI]
+```
 
 ---
 
