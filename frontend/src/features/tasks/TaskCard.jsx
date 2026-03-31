@@ -5,14 +5,8 @@ import FocusMode from './FocusMode';
 import ProcrastinationAlert from '../ai/ProcrastinationAlert';
 import Checklist from './Checklist';
 
-// FIXME: este delay de 3 minutos é arbitrário, talvez devesse ser configurável por usuário no futuro
-const PROCRASTINATION_DELAY = 3 * 60 * 1000;
-
-/**
- * TaskCard v3 — integra Checklist Inteligente + callbacks de XP
- */
 export default function TaskCard({ task, onComplete, onDelete, onXP, onBadgeEvent, onStart }) {
-    // TODO: refatorar estes múltiplos states para um useReducer se a complexidade aumentar
+    // TODO: useReducer?
     const [aiLoading, setAiLoading] = useState(false);
     const [stuckLoading, setStuckLoading] = useState(false);
     const [primeiroPasso, setPrimeiroPasso] = useState(task.primeiro_passo || null);
@@ -22,15 +16,8 @@ export default function TaskCard({ task, onComplete, onDelete, onXP, onBadgeEven
     const [showAlert, setShowAlert] = useState(false);
     const [justCompleted, setJustCompleted] = useState(false);
 
-    // Checklist
-    const [checklistItems, setChecklistItems] = useState([]);
-    const [checklistLoading, setChecklistLoading] = useState(false);
-    const [showChecklist, setShowChecklist] = useState(false);
-
-    const procrastinationTimer = useRef(null);
     const isDone = Boolean(task.concluida);
 
-    // Carrega checklist existente ao montar
     useEffect(() => {
         if (isDone || task.iniciado_em || primeiroPasso) return;
         procrastinationTimer.current = setTimeout(() => setShowAlert(true), PROCRASTINATION_DELAY);
@@ -130,7 +117,7 @@ export default function TaskCard({ task, onComplete, onDelete, onXP, onBadgeEven
     }
 
     async function handleDelete() {
-        // TODO: adicionar um modal de confirmação aqui, o usuário pode deletar sem querer
+        // TODO: add confirmation modal
         try {
             await fetchWithSession(`/api/tasks/${task.id}`, { method: 'DELETE' });
             onDelete(task.id);

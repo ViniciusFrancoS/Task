@@ -1,6 +1,5 @@
 /**
- * TaskForge AI v2 — mais inteligente, contextual e variado
- * Suporta dois modos: primeiro_passo e travado (versão ainda mais simples)
+ * Lógica do Mentor IA para fragmentação de tarefas.
  */
 
 // ─── Respostas genéricas de fallback ───────────────────────────────────────
@@ -328,7 +327,7 @@ async function gerarChecklist(titulo) {
         const apiKey = process.env.GEMINI_API_KEY;
         const genAI = new GoogleGenerativeAI(apiKey);
 
-        // Mantendo 2.5 flash devido aos testes validados previamente
+        // Gemini fallback logic
         const model = genAI.getGenerativeModel({ model: 'gemini-2.5-flash' });
 
         const prompt = `Você é um Assistente de Produtividade Brutal e Direto.

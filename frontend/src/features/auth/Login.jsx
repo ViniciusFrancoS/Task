@@ -9,7 +9,6 @@ export default function Login() {
     const [error, setError] = useState(null);
     const [signupSuccess, setSignupSuccess] = useState(false);
 
-    // Tradutor de erros para uma linguagem mais humana
     const getFriendlyError = (errMessage) => {
         if (errMessage.includes('Invalid login credentials')) return 'Ops, e-mail ou senha incorretos. Dá uma conferidinha!';
         if (errMessage.includes('User already registered')) return 'Este e-mail já tá cadastrado por aqui. Tenta o login!';
@@ -56,8 +55,6 @@ export default function Login() {
             if (error) throw error;
 
             if (data.user && !data.session) {
-                // Decisão de Design: Desativado o email_confirm para agilizar o onboarding no ambiente de demonstração (Portfólio).
-                // Modo padrão com confirmação de e-mail estaria ativa aqui
                 setSignupSuccess(true);
             }
         } catch (err) {

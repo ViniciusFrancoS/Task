@@ -1,10 +1,5 @@
-/* =====================================================
-   Dark mode, roxo/índigo, Inter
-   ===================================================== */
-
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
 
-/* TaskForge AI - Sistema de Design */
 :root {
   --bg-base: #0a0a0f;
   --bg-surface: #12121a;
@@ -678,9 +673,7 @@ body {
   }
 }
 
-/* =====================================================
-   ANTIGRAVITY AI v2 — Novos Componentes
-   ===================================================== */
+/* ---- Componentes Adicionais ---- */
 
 /* ---- Focus Mode — Overlay ---- */
 .focus-overlay {
@@ -1058,7 +1051,7 @@ body {
   }
 }
 
-/* ---- Responsividade v2 ---- */
+/* ---- Responsividade ---- */
 @media (max-width: 480px) {
   .focus-task-title {
     font-size: 26px;
@@ -1086,9 +1079,7 @@ body {
   }
 }
 
-/* =====================================================
-   ANTIGRAVITY AI v3 — Checklist + Gamificação
-   ===================================================== */
+/* ---- Gamificação e Checklist ---- */
 
 /* ---- Gamification Bar ---- */
 .gamification-bar {
@@ -1443,7 +1434,7 @@ body {
   animation: fadeInScale 0.3s ease;
 }
 
-/* ---- Responsividade v3 ---- */
+/* ---- Responsividade Mobile ---- */
 @media (max-width: 480px) {
   .gamification-bar {
     flex-wrap: wrap;
@@ -1462,10 +1453,10 @@ body {
 }
 
 /* =====================================================
-   ANTIGRAVITY AI v4 — Pomodoro + Leaderboard
+   Pomodoro + Leaderboard
    ===================================================== */
 
-/* ---- FocusMode v2 — Layout 2 colunas ---- */
+/* ---- Focus Mode Layout ---- */
 .focus-v2-layout {
   display: flex;
   gap: 40px;

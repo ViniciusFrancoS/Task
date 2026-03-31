@@ -9,7 +9,6 @@ export default function VerificationPending({ session }) {
 
     const email = session?.user?.email;
 
-    // Gerencia o cooldown para evitar spam de reenvio
     useEffect(() => {
         const lastSent = localStorage.getItem('ag_last_verification_sent');
         if (lastSent) {

@@ -4,10 +4,8 @@ const supabase = require('../supabase');
 const auth = require('../middleware/auth');
 const { gerarPrimeiroPasso, gerarPassoTravado, gerarChecklist } = require('../services/gemini');
 
-// Aplica o middleware de sessão em todas as rotas de tarefas
 router.use(auth);
 
-// GET /api/tasks — Lista todas as tarefas do usuário (mais recentes primeiro)
 router.get('/', async (req, res) => {
     try {
         const { data: tasks, error } = await req.supabase
@@ -24,7 +22,6 @@ router.get('/', async (req, res) => {
     }
 });
 
-// POST /api/tasks — Cria nova tarefa
 router.post('/', async (req, res) => {
     const { titulo } = req.body;
 
@@ -42,8 +39,7 @@ router.post('/', async (req, res) => {
             .insert([{ user_id: req.user.id, titulo: titulo.trim() }])
             .select('*')
             .single();
-        // TODO: Validar se o título já existe pra esse usuário antes de criar
-
+        // TODO: check duplicate title
         if (error) throw error;
 
         await req.supabase.from('task_events').insert([{ task_id: nova.id, tipo: 'created' }]);
@@ -55,7 +51,6 @@ router.post('/', async (req, res) => {
     }
 });
 
-// POST /api/tasks/:id/start — Gera o primeiro passo via IA
 router.post('/:id/start', async (req, res) => {
     const id = parseInt(req.params.id);
 
@@ -96,7 +91,6 @@ router.post('/:id/start', async (req, res) => {
     }
 });
 
-// POST /api/tasks/:id/stuck — Versão ainda mais simples quando travado
 router.post('/:id/stuck', async (req, res) => {
     const id = parseInt(req.params.id);
 
@@ -152,9 +146,7 @@ router.delete('/:id', async (req, res) => {
             .delete()
             .eq('id', id)
             .eq('user_id', req.user.id);
-        // FIXME: Precisamos garantir que o ON DELETE CASCADE esteja configurado no Postgres
-        // para não sobrar lixo na tabela checklist_items e task_events.
-
+        // fix: ensure cascade delete on postgres for checklist_items/task_events
         if (error) throw error;
         res.json({ message: 'Tarefa removida com sucesso.' });
     } catch (err) {

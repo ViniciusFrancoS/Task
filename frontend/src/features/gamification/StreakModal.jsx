@@ -29,7 +29,7 @@ export default function StreakModal({ status, streak, onClose }) {
                 start += 1;
                 setCount(start);
                 if (start === end) clearInterval(timer);
-            }, 600 / streak); // TODO: ajustar velocidade da animação baseada no valor total
+            }, 600 / streak); // TODO: speed based on total?
             return () => clearInterval(timer);
         }
     }, [status, streak]);
@@ -79,7 +79,7 @@ export default function StreakModal({ status, streak, onClose }) {
                     {isUp ? 'Bora manter o ritmo!' : 'Vou focar de novo!'}
                 </button>
                 
-                {/* TODO: adicionar botão de compartilhar nos stories? */}
+                {/* TODO: share button? */}
             </motion.div>
         </motion.div>
     );

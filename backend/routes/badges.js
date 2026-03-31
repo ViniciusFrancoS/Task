@@ -5,8 +5,7 @@ const auth = require('../middleware/auth');
 
 router.use(auth);
 
-// Configs reais das badges
-// TODO: Mover isso para o banco de dados futuramente para não precisar de deploy pra mudar valores de XP
+// TODO: move to DB
 const BADGE_REWARDS = {
     madrugador: { niveis: [1, 10, 30], xp: [50, 150, 500] },
     maratonista: { niveis: [7, 15, 30], xp: [100, 300, 1000] },
@@ -106,7 +105,7 @@ router.post('/evaluate', async (req, res) => {
         res.json({ unlocks, badges, totalXpGained });
 
     } catch (err) {
-        // FIXME: o console.error tá poluindo muito o log, mas por enquanto ajuda a debugar
+        // TODO: centralize error logging
         console.error('[POST /badges/evaluate]', err);
         res.status(500).json({ error: 'Erro ao avaliar badgets' });
     }

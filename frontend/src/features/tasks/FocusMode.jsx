@@ -1,7 +1,3 @@
-/**
- * FocusMode v2 — Overlay com Pomodoro + Checklist + IA
- * Integra o timer diretamente no modo de foco
- */
 import { useEffect } from 'react';
 import PomodoroTimer from './PomodoroTimer';
 import Checklist from './Checklist';

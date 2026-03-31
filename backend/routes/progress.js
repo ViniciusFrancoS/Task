@@ -5,7 +5,6 @@ const auth = require('../middleware/auth');
 
 router.use(auth);
 
-// Funções utilitárias de data (lidando com timezone local do browser/server)
 function getHojeLocal() {
     const d = new Date();
     return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
@@ -18,8 +17,7 @@ function toDateOnly(dateStr) {
     return new Date(y, m - 1, d);
 }
 
-// Calcula diferença em dias inteiros entre duas datas normalizadas
-// FIXME: esta lógica de diff em dias pode falhar em mudanças de horário de verão (DST), considerar usar date-fns
+// fix: DST issues (date-fns?)
 function diffDays(dateA, dateB) {
     if (!dateA || !dateB) return 0;
     const a = toDateOnly(dateA);
@@ -98,7 +96,6 @@ router.post('/xp', async (req, res) => {
     }
 });
 
-// POST /api/progress/check-streak — Avalia o login diário e retorna feedbacks visuais
 router.post('/check-streak', async (req, res) => {
     try {
         const { data: current, error: curError } = await req.supabase
@@ -157,7 +154,7 @@ router.post('/check-streak', async (req, res) => {
 
         res.json({ status, streak: updated.streak });
     } catch (err) {
-        // TODO: melhorar esse console.error com mais contexto da transação
+        // TODO: add context to error log
         console.error('[POST /progress/check-streak]', err);
         res.status(500).json({ error: 'Erro ao analisar streak diário.' });
     }
@@ -165,7 +162,7 @@ router.post('/check-streak', async (req, res) => {
 
 // POST /api/progress/streak/bump — (Legado / Refatorado)
 // Agora o streak é gerido acima (check-streak), 
-// mantemos este endpoint para eventuais compatibilidades, mas na V2 ele não afeta mais o streak se o dia for o mesmo.
+// Endpoint legado para compatibilidade.
 router.post('/streak/bump', async (req, res) => {
     const { sequence, dias_ativos } = req.body; // Vem do cliente 
 

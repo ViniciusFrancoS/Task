@@ -15,7 +15,6 @@ import SobrePage from './features/pages/SobrePage';
 import StreakModal from './features/gamification/StreakModal';
 import { useGamification } from './features/gamification/useGamification';
 import { useBadges } from './features/gamification/useBadges';
-// [REMOVIDO] import VerificationPending from './shared/components/VerificationPending';
 
 export default function App() {
     const [session, setSession] = useState(null);
@@ -32,11 +31,10 @@ export default function App() {
 
     const isFirstRender = useRef(true);
 
-    // Avalia a badge Maratonista apenas quando houver mudança real (não no carregamento inicial)
     useEffect(() => {
         if (isFirstRender.current) {
             isFirstRender.current = false;
-            return; // Pula o primeiro disparo (login)
+            return;
         }
         if (sequencia >= 7 && evaluateBadge) {
             evaluateBadge('streak_bumped', { sequence: sequencia });
@@ -49,7 +47,6 @@ export default function App() {
             console.log(`[App Auth] Evento: ${event} | Sessão: ${session ? 'Ativa' : 'Nula'}`);
  
             if (event === 'INITIAL_SESSION') {
-                console.log('[App Auth] Sessão inicial validada.');
                 setAuthLoading(false);
             }
 
@@ -310,7 +307,7 @@ export default function App() {
                 {activeTab === 'sobre' && <SobrePage />}
 
                 <footer className="app-footer">
-                    <p>Feito com <span>TaskForge</span> — forje seus resultados e elimine objeções.</p>
+                    <p>Feito por Vinicius Franco — Foco e Produtividade.</p>
                 </footer>
             </div>
         </div>
