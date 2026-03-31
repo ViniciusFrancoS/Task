@@ -2,7 +2,7 @@
  * Leaderboard — Ranking local com usuários simulados
  * Top 3 em destaque, jogador atual destacado com borda
  */
-import { useLeaderboard } from '../hooks/useLeaderboard';
+import { useLeaderboard } from './useLeaderboard';
 
 const MEDALS = ['🥇', '🥈', '🥉'];
 

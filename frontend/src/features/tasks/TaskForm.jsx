@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { fetchWithSession } from '../hooks/useSession';
+import { fetchWithSession } from '../../core/auth/useSession';
 
 /**
  * TaskForm — Input para adicionar nova tarefa

@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { fetchWithSession } from './useSession';
+import { fetchWithSession } from '../../core/auth/useSession';
 
 export function useBadges(session, ganharXP) {
     const [userBadges, setUserBadges] = useState({});

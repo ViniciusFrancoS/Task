@@ -19,21 +19,23 @@ async function requireAuth(req, res, next) {
         const { data: { user }, error } = await supabase.auth.getUser(token);
 
         if (error || !user) {
-            console.error(`[AUTH] Falha na validação do token: ${error?.message || 'Usuário nulo'}`);
+            
             return res.status(401).json({ error: 'Não autorizado. Token inválido/expirado.' });
         }
 
-        console.log(`[AUTH] Usuário logado: ${user.email} (ID: ${user.id}) | Verificado: ${!!user.email_confirmed_at}`);
+        
 
-        // [NOVO] Bloqueio de e-mail não verificado
+        // [REMOVIDO] Bloqueio de e-mail não verificado para portfólio
+        /* 
         if (!user.email_confirmed_at) {
-            console.warn(`[AUTH] Acesso bloqueado: E-mail não verificado para ${user.email}`);
+            
             return res.status(403).json({ 
                 error: 'E-mail não confirmado.', 
                 code: 'EMAIL_NOT_CONFIRMED',
                 message: 'Por favor, confirme seu e-mail para acessar os recursos da TaskForge.' 
             });
         }
+        */
 
         // Criar cliente escopado para o usuário
         req.supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_ANON_KEY, {
@@ -49,11 +51,11 @@ async function requireAuth(req, res, next) {
             .maybeSingle();
 
         if (pgError) {
-            console.error(`[AUTH] Erro ao checar user_progress: ${pgError.message}`);
+            
         }
 
         if (!progress) {
-            console.log(`[AUTH] Inicializando perfil para novo usuário VERIFICADO: ${user.email}`);
+            
             // Cria progresso base com nome (se disponível)
             const userName = user.user_metadata?.full_name || user.email.split('@')[0];
             
@@ -66,9 +68,9 @@ async function requireAuth(req, res, next) {
             });
 
             if (insertError) {
-                console.error(`[AUTH] Falha ao criar perfil: ${insertError.message}`);
+                
             } else {
-                console.log(`[AUTH] Perfil criado com sucesso para ${user.email}`);
+                
             }
         }
 
@@ -80,7 +82,7 @@ async function requireAuth(req, res, next) {
 
         next();
     } catch (err) {
-        console.error('[AUTH ERROR FATAL]:', err);
+        
         return res.status(500).json({ error: 'Erro interno na validação de usuário.' });
     }
 }

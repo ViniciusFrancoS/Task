@@ -1,21 +1,21 @@
 import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { fetchWithSession } from './hooks/useSession';
-import { supabase } from './lib/supabase';
-import Login from './components/Login';
-import TaskForm from './components/TaskForm';
-import TaskCard from './components/TaskCard';
-import MicroVictories from './components/MicroVictories';
-import GamificationBar from './components/GamificationBar';
-import XPFeedback from './components/XPFeedback';
-import Leaderboard from './components/Leaderboard';
-import BadgesPanel from './components/BadgesPanel';
-import AIAssistant from './components/AIAssistant';
-import SobrePage from './components/SobrePage';
-import StreakModal from './components/StreakModal';
-import { useGamification } from './hooks/useGamification';
-import { useBadges } from './hooks/useBadges';
-import VerificationPending from './components/VerificationPending';
+import { fetchWithSession } from './core/auth/useSession';
+import { supabase } from './core/database/supabase';
+import Login from './features/auth/Login';
+import TaskForm from './features/tasks/TaskForm';
+import TaskCard from './features/tasks/TaskCard';
+import MicroVictories from './features/gamification/MicroVictories';
+import GamificationBar from './features/gamification/GamificationBar';
+import XPFeedback from './features/gamification/XPFeedback';
+import Leaderboard from './features/gamification/Leaderboard';
+import BadgesPanel from './features/gamification/BadgesPanel';
+import AIAssistant from './features/ai/AIAssistant';
+import SobrePage from './features/pages/SobrePage';
+import StreakModal from './features/gamification/StreakModal';
+import { useGamification } from './features/gamification/useGamification';
+import { useBadges } from './features/gamification/useBadges';
+// [REMOVIDO] import VerificationPending from './shared/components/VerificationPending';
 
 export default function App() {
     const [session, setSession] = useState(null);
@@ -136,10 +136,11 @@ export default function App() {
         return <Login />;
     }
 
-    // Bloqueio Total para e-mail não verificado
+    /* 
     if (!session.user.email_confirmed_at) {
         return <VerificationPending session={session} />;
     }
+    */
 
     return (
         <div className="app-wrapper">

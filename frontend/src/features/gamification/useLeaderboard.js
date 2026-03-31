@@ -1,5 +1,5 @@
 import { useMemo, useState, useEffect } from 'react';
-import { fetchWithSession } from './useSession';
+import { fetchWithSession } from '../../core/auth/useSession';
 
 const NOMES_FICTICIOS = [
     'Lucas M.', 'Ana P.', 'Gabriel S.', 'Beatriz L.', 'Rafael T.',

@@ -1,8 +1,8 @@
 import { useState, useEffect, useRef } from 'react';
-import { fetchWithSession } from '../hooks/useSession';
-import AIResponse from './AIResponse';
+import { fetchWithSession } from '../../core/auth/useSession';
+import AIResponse from '../ai/AIResponse';
 import FocusMode from './FocusMode';
-import ProcrastinationAlert from './ProcrastinationAlert';
+import ProcrastinationAlert from '../ai/ProcrastinationAlert';
 import Checklist from './Checklist';
 
 // FIXME: este delay de 3 minutos é arbitrário, talvez devesse ser configurável por usuário no futuro

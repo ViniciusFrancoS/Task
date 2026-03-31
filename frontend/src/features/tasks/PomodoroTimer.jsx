@@ -2,7 +2,7 @@
  * PomodoroTimer — Timer visual com arco SVG animado
  * Exibe MM:SS, fase (foco/pausa), botões e feedback de sessão concluída
  */
-import { usePomodoro } from '../hooks/usePomodoro';
+import { usePomodoro } from './usePomodoro';
 
 const RADIUS = 54;
 const CIRCUM = 2 * Math.PI * RADIUS;

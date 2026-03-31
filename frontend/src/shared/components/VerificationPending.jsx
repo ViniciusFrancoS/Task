@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { supabase } from '../lib/supabase';
+import { supabase } from '../../core/database/supabase';
 
 export default function VerificationPending({ session }) {
     const [loading, setLoading] = useState(false);

@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import { supabase } from '../lib/supabase';
-import '../human.css'; // Importando os novos estilos centralizados
+import { supabase } from '../../core/database/supabase';
+import '../../shared/styles/human.css'; // Importando os novos estilos centralizados
 
 export default function Login() {
     const [email, setEmail] = useState('');
@@ -14,7 +14,7 @@ export default function Login() {
         if (errMessage.includes('Invalid login credentials')) return 'Ops, e-mail ou senha incorretos. Dá uma conferidinha!';
         if (errMessage.includes('User already registered')) return 'Este e-mail já tá cadastrado por aqui. Tenta o login!';
         if (errMessage.includes('Password should be at least')) return 'A senha precisa ter pelo menos 6 caracteres, capricha aí!';
-        if (errMessage.includes('Email not confirmed')) return 'E-mail não confirmado. Dá uma olhada na sua caixa de entrada!';
+        /* if (errMessage.includes('Email not confirmed')) return 'E-mail não confirmado. Dá uma olhada na sua caixa de entrada!'; */
         return 'Puxa, deu algo errado. Tenta de novo em um minutinho?';
     };
 
@@ -31,9 +31,6 @@ export default function Login() {
 
         if (error) {
             setError(getFriendlyError(error.message));
-        } else if (data.user && !data.user.email_confirmed_at) {
-            // Em algumas configurações o Supabase permite o login mas retorna user sem confirmação
-            setError('E-mail não confirmado. Dá uma olhada na sua caixa de entrada!');
         }
         setLoading(false);
     }
@@ -59,7 +56,8 @@ export default function Login() {
             if (error) throw error;
 
             if (data.user && !data.session) {
-                // Modo padrão com confirmação de e-mail ativa
+                // Decisão de Design: Desativado o email_confirm para agilizar o onboarding no ambiente de demonstração (Portfólio).
+                // Modo padrão com confirmação de e-mail estaria ativa aqui
                 setSignupSuccess(true);
             }
         } catch (err) {
@@ -69,6 +67,7 @@ export default function Login() {
         }
     }
 
+    /* 
     if (signupSuccess) {
         return (
             <div className="login-container">
@@ -92,6 +91,7 @@ export default function Login() {
             </div>
         );
     }
+    */
 
     return (
         <div className="login-container">

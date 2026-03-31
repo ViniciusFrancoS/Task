@@ -1,7 +1,7 @@
 /**
  * GamificationBar — Barra de nível, XP e streak no topo do app
  */
-import { getNivel, getProgressoNivel, NIVEIS } from '../hooks/useGamification';
+import { getNivel, getProgressoNivel, NIVEIS } from './useGamification';
 
 export default function GamificationBar({ xp, sequencia, isLoading }) {
     if (isLoading) {

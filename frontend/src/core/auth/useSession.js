@@ -1,4 +1,4 @@
-import { supabase } from '../lib/supabase';
+import { supabase } from '../database/supabase';
 
 // Cache de token em nível de módulo — atualizado pelo listener abaixo
 let _cachedToken = null;

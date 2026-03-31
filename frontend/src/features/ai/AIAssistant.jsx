@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Zap, CheckCircle2, Circle, Loader2, Sparkles } from 'lucide-react';
-import { generateStudyChecklist } from '../services/aiMentor';
+import { generateStudyChecklist } from '../tasks/AiMentorService';
 import './AIAssistant.css';
 
 export default function AIAssistant({ onXP }) {

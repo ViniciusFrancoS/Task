@@ -1,6 +1,6 @@
-import { useLocalStorage } from './useLocalStorage';
+import { useLocalStorage } from '../../shared/hooks/useLocalStorage';
 import { useState, useCallback, useEffect } from 'react';
-import { fetchWithSession } from './useSession';
+import { fetchWithSession } from '../../core/auth/useSession';
 
 const BASE_NAMES = [
     'Iniciante', 'Focado', 'Consistente', 'Disciplinado', 'Mestre',
