@@ -19,7 +19,7 @@ graph TD
 ## 🛠️ Stack
 - **Front:** React (Vite) + Framer Motion
 - **Back:** Node.js (Express)
-- **Banco:** PostgreSQL (Supabase)
+- **Banco:** PostgreSQL 
 - **IA:** Google Gemini 3.1 Pro
 
 ## ⚙️ Setup Local
