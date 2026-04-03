@@ -5,6 +5,8 @@ import FocusMode from './FocusMode';
 import ProcrastinationAlert from '../ai/ProcrastinationAlert';
 import Checklist from './Checklist';
 
+const PROCRASTINATION_DELAY = 3 * 60 * 1000;
+
 export default function TaskCard({ task, onComplete, onDelete, onXP, onBadgeEvent, onStart }) {
     // TODO: useReducer?
     const [aiLoading, setAiLoading] = useState(false);
@@ -15,6 +17,12 @@ export default function TaskCard({ task, onComplete, onDelete, onXP, onBadgeEven
     const [focusMode, setFocusMode] = useState(false);
     const [showAlert, setShowAlert] = useState(false);
     const [justCompleted, setJustCompleted] = useState(false);
+
+    const [checklistItems, setChecklistItems] = useState([]);
+    const [checklistLoading, setChecklistLoading] = useState(false);
+    const [showChecklist, setShowChecklist] = useState(false);
+
+    const procrastinationTimer = useRef(null);
 
     const isDone = Boolean(task.concluida);
 
